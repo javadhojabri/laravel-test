@@ -1,4 +1,5 @@
 <form action="" method="post" enctype="multipart/form-data" class="rtl">
+    @include('admin.partials.notification')
     @csrf
     <div class="form-group rtl">
         <label for="full_name" class="float-right">نام نام خانوادگی</label>

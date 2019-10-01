@@ -25,17 +25,21 @@ class TeamsController extends Controller
     public function store(Request $request)
     {
         Team::create($request->all());
-        return redirect()->route("admin.teams.list");
+        return redirect()->route("admin.teams.list")->with("message", "تیم با موفقیت ثبت شد");
     }
 
-    public function edit()
+    public function edit($team_id)
     {
-        dd("edit teams");
+        $team = Team::find($team_id);
+        return view('admin.team.edit', compact('team'))->with("panel_title", "ویرایش تیم");
     }
 
-    public function update()
+    public function update(Request $request, $team_id)
     {
-        dd("update teams");
+        $team = Team::find($team_id);
+        $team->update($request->all());
+        return redirect()->route("admin.teams.list")->with("message", "تیم با موفقیت ویرایش شد ");
+//        return view("admin.team.index")->with("message", "تیم با موفقیت ویرایش شد");
     }
 
     public function syncplayer($team_id)
@@ -51,13 +55,13 @@ class TeamsController extends Controller
         $team_item = Team::find($team_id);
         $players = $request->input('players');
         $team_item->players()->sync($players);
-        return redirect()->route("admin.teams.list")->with("mwssage", "عملیا با موفقیت انجام شد ");
+        return redirect()->route("admin.teams.list")->with("message", "ویرایش بازیکنان تیم با موفقیت انجام شد ");
     }
 
     public function remove($team_id)
     {
         $team = Team::find($team_id);
         $team->destroy($team_id);
-        return redirect()->back();
+        return redirect()->back()->with("message", "حذف با موفقیت انجام شد");
     }
 }

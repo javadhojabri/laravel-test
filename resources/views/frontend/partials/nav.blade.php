@@ -25,10 +25,12 @@
                     <span
                             class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{route("admin.admin.home")}}">پنل مدیریت <span
-                            class="sr-only">(current)</span></a>
-            </li>
+            @if (\Illuminate\Support\Facades\Auth::user()->role == "1")
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{route("admin.admin.home")}}">پنل مدیریت <span
+                                class="sr-only">(current)</span></a>
+                </li>
+            @endif
             <li class="nav-item active">
                 <a class="nav-link" href="{{route("frontend.home.logout")}}">خروج <span
                             class="sr-only">(current)</span></a>

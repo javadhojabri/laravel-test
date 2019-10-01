@@ -35,19 +35,35 @@ class UsersController extends Controller
         return redirect()->route("admin.users.list")->with("message", "کاربر جدید با موفقیت ثبت شد");
     }
 
-    public function edit()
+    public function edit($user_id)
     {
-        dd("user controller edit");
+        $user = User::find($user_id);
+        return view("admin.user.edit", compact('user'))->with("panel_title", "ویرایش کاربر");
     }
 
-    public function update()
+    public function update(Request $request, $user_id)
     {
-        dd("user controller update");
+        $user = User::find($user_id);
+        if (!$request->input('password') == '') {
+            $user->update($request->all());
+        } else {
+            $user->update(
+                [
+                    'full_name' => $request->input('full_name'),
+                    'email' => $request->input('email'),
+                    'role' => $request->input('role'),
+                ]
+            );
+        }
+        return redirect()->route("admin.users.list")->with("message", "کاربر با موفقیت ویرایش شد");
     }
 
-    public function remove()
+    public function remove($user_id)
     {
-        dd("user controller remove");
+        $user = User::find($user_id);
+        $user->destroy($user_id);
+        return redirect()->route("admin.users.list")->with("message", "کاربر با موفقیت حذف شد");
+
     }
 
 }

@@ -25,8 +25,11 @@ class PlayersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'file' => 'required|mimes:png,jpeg,jpg|max:2048',
-        ], []);
+            'file' => 'required|mimes:png,jpeg,jpg|max:500',
+        ], [
+            'file.max' => "حجم فایل حداکثر 500 کیلوبایت باشد",
+            'file.mimes' => "لطفا تصویر آپلود شود",
+        ]);
         $new_file_name = Str::random(10) . '.' . $request->file("file")->getClientOriginalExtension();
         $request->file('file')->move(public_path('images'), $new_file_name);
         $new_players = ([
@@ -35,7 +38,7 @@ class PlayersController extends Controller
         ]);
         $player = Player::create($new_players);
         $player->teams()->sync($request->input('team_id'));
-        return redirect()->route("admin.players.list");
+        return redirect()->route("admin.players.list")->with('message', 'اطلاعات بازیکن با موفقیت ذخیره شد');
     }
 
     public function edit(Request $request, $player_id)
@@ -58,7 +61,7 @@ class PlayersController extends Controller
             $player = Player::find($player_id);
             $player->update($new_players);
             $player->teams()->sync($request->input('team_id'));
-            return redirect()->route("admin.players.list");
+            return redirect()->route("admin.players.list")->with('message', 'ویرایش بازیکن موفقیت انجام شد');
         } else {
             $new_players = ([
                 "full_name" => $request->input("full_name"),
@@ -66,7 +69,7 @@ class PlayersController extends Controller
             $player = Player::find($player_id);
             $player->update($new_players);
             $player->teams()->sync($request->input('team_id'));
-            return redirect()->route("admin.players.list");
+            return redirect()->route("admin.players.list")->with('message', 'ویرایش با موفقیت انجام شد');
         }
     }
 
@@ -74,6 +77,6 @@ class PlayersController extends Controller
     {
         $player = Player::find($player_id);
         $player->destroy($player_id);
-        return redirect()->back();
+        return redirect()->back()->with('message', 'حذف بازیکن با موفقیت انجام شد');
     }
 }
