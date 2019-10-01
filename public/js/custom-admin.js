@@ -5,3 +5,4 @@ jquery(document).ready(function ($) {
 $(document).ready(function () {
     $('.mdb-select').materialSelect();
 });
+$('select').selectpicker();
