@@ -48,7 +48,7 @@ class HomeController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         if (Auth::attempt(array('email' => $email, 'password' => $password))) {
-            return redirect('/admin');
+            return redirect('/');
         } else {
             return redirect()->back()->with("LoginError", "نام کاربری و رمز عبور اشتباه");
         }
@@ -66,5 +66,9 @@ class HomeController extends Controller
 //        } else {
 //            return redirect()->back()->with("LoginError", "نام کاربری و رمز عبور اشبتاه می باشد");
 
-
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
 }

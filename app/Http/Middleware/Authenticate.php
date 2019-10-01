@@ -20,7 +20,7 @@ class Authenticate extends Middleware
 //    }
     protected function redirectTo($request)
     {
-        return route('frontend.user.login');
+        return route('frontend.home.login');
 //        return redirect()->guest(route('auth.login'));
     }
 }

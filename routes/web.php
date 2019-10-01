@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 URL::asset("storage\app/public/images/*");
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', "middleware" => 'admin'], function () {
     //admin
     Route::get('/', "UsersController@home")->name("admin.admin.home");
 
@@ -54,6 +54,7 @@ Route::group(['namespace' => 'Frontend'], function () {
     Route::post('/register', "HomeController@doregister")->name("frontend.home.register");
     Route::get('/login', "HomeController@login")->name("frontend.home.login");
     Route::post('/login', "HomeController@dologin")->name("frontend.home.login");
+    Route::get('/logout', "HomeController@logout")->name("frontend.home.logout");
 //    Route::get('/users/edit/{user_id}', "UsersController@edit")->name("admin.users.edit");
 //    Route::post('/users/edit/{user_id}', "UsersController@update")->name("admin.users.edit");
 //    Route::get('/users/delete/{user_id}', "UsersController@remove")->name("admin.users.remove");
